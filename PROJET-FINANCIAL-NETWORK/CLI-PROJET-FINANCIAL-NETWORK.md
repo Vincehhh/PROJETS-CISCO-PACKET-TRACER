@@ -288,7 +288,7 @@ do wr
 en
 conf t
 
-hostname Server-Side-Router
+hostname Safaricorm
 
 enable password cisco
 
@@ -315,4 +315,40 @@ exit
 
 do wr
 ```
+
+
+## Router 2911 JTL-IS
+
+```
+en
+conf t
+
+hostname JTL-ISP
+
+enable password cisco
+
+line console 0
+password cisco 
+login
+exit
+
+banner motd #NO UNAUTHORISED ACCESS!!#
+
+no ip domain lookup 
+
+service password-encryption
+
+username cisco password cisco
+ip domain-name cisco.com
+crypto key generate rsa 
+1024
+ip ssh version 2
+line vty 0 15
+login local
+transport input ssh
+exit
+
+do wr
+```
+
 
