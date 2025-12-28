@@ -283,6 +283,11 @@ name IT
 vlan 120
 name VOICE
 exit
+
+interface GigabitEthernet1/0/1
+no switchport
+ip add 192.168.21.17 255.255.255.252
+no shut
 do wr
 ```
 ## Switch Layer 3 3650 HQ-MSLW2
@@ -335,6 +340,10 @@ vlan 120
 name VOICE
 exit
 
+interface GigabitEthernet1/0/1
+no switchport
+ip add 192.168.21.21 255.255.255.252
+no shut
 
 do wr
 ```
@@ -489,4 +498,23 @@ exit
 do wr
 ```
 
+## ROUTER 2811 HQ VOIP 
 
+
+```
+en
+conf t
+int fa 0/0
+no sh
+ip add 10.10.10.1 255.255.255.0
+exit
+int fa 0/0
+no ip address
+int fa 0/0.120
+encapsulation dot1Q 120
+ip add 10.10.10.1 255.255.255.0
+exit
+
+
+do wr
+```
