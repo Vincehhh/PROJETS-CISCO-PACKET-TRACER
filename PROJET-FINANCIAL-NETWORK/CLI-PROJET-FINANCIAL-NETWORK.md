@@ -393,6 +393,13 @@ login local
 transport input ssh
 exit
 
+router ospf 10
+router-id 4.4.4.4
+network 190.200.100.0 0.0.0.3 area 0
+network 190.200.100.4 0.0.0.3 area 0
+network 192.168.21.16 0.0.0.3 area 0
+network 192.168.21.20 0.0.0.3 area 0
+
 do wr
 ```
 
@@ -473,6 +480,12 @@ login local
 transport input ssh
 exit
 
+router ospf 10
+router-id 5.5.5.5
+network 190.200.100.0 0.0.0.3 area 0
+network 190.200.100.8 0.0.0.3 area 0
+exit
+
 do wr
 ```
 
@@ -508,6 +521,11 @@ login local
 transport input ssh
 exit
 
+router ospf 10
+router-id 6.6.6.6
+network 190.200.100.4 0.0.0.3 area 0
+network 190.200.100.12 0.0.0.3 area 0
+exit
 do wr
 ```
 
