@@ -296,6 +296,36 @@ router-id 1.1.1.1
 network 10.10.10.0 0.0.0.255 area 0
 network 192.168.21.16 0.0.0.3 area 0
 network 192.168.20.0 0.0.0.255 area 0
+exit
+
+int vlan 10 
+ip add 192.168.20.1 255.255.255.192
+ip helper-address 192.161.21.5
+exit
+
+int vlan 20
+ip add 192.168.20.65 255.255.255.192
+ip helper-address 192.168.21.5
+exit
+
+int vlan 30
+ip add 192.168.20.129 255.255.255.192
+ip helper-address 192.168.21.5
+exit
+
+int vlan 40
+ip add 192.168.20.193 255.255.255.224
+ip helper-address 192.168.21.5
+exit
+
+int vlan 50
+ip add 192.168.20.225 255.255.255.224
+ip helper-address 192.168.21.5
+exit
+
+
+do wr
+
 ```
 ## Switch Layer 3 3650 HQ-MSLW2
 
@@ -445,6 +475,15 @@ switchport mode access
 switchport access vlan 99
 shutdown
 exit
+
+router ospf 10
+router-id 7.7.7.7
+network 192.168.21.0 0.0.0.15 area 0
+network 190.200.100.8 0.0.0.3 area 0
+network 190.200.100.12 0.0.0.3 area 0
+exit
+
+
 do wr
 ```
 
