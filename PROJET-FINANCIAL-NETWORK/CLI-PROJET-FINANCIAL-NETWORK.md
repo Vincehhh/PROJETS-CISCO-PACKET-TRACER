@@ -300,7 +300,7 @@ exit
 
 int vlan 10 
 ip add 192.168.20.1 255.255.255.192
-ip helper-address 192.161.21.5
+ip helper-address 192.168.21.5
 exit
 
 int vlan 20
@@ -323,6 +323,12 @@ ip add 192.168.20.225 255.255.255.224
 ip helper-address 192.168.21.5
 exit
 
+
+interface GigabitEthernet1/0/7
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any
+line vty 0 15 
+access-class 10 in 
 
 do wr
 
@@ -384,9 +390,29 @@ no shut
 
 ip routing
 router ospf 10
-router-id 2.2.2.2network 10.10.10.0 0.0.0.255 area 0
+router-id 2.2.2.2
+network 10.10.10.0 0.0.0.255 area 0
 network 192.168.21.20 0.0.0.3 area 0
 network 192.168.20.0 0.0.0.255 area 0
+exit
+
+
+int vlan 10
+ip add 192.168.20.2 255.255.255.192
+exit
+int vlan 20
+ip add 192.168.20.66 255.255.255.192
+exit
+int vlan 30
+ip add 192.168.20.130 255.255.255.192
+exit
+int vlan 40
+ip add 192.168.20.194 255.255.255.224
+exit
+int vlan 50
+ip add 192.168.20.226 255.255.255.224
+exit
+
 
 do wr
 ```
@@ -481,6 +507,21 @@ router-id 7.7.7.7
 network 192.168.21.0 0.0.0.15 area 0
 network 190.200.100.8 0.0.0.3 area 0
 network 190.200.100.12 0.0.0.3 area 0
+exit
+
+interface GigabitEthernet0/0
+ip address 192.168.21.1 255.255.255.240
+no shutdown
+exit
+
+interface Serial0/0/0
+ip address 190.200.100.9 255.255.255.252
+no shutdown
+exit
+
+interface Serial0/0/1
+ip address 190.200.100.13 255.255.255.252
+no shutdown
 exit
 
 
@@ -591,6 +632,57 @@ network 10.10.10.0 0.0.0.255 area 0
 
 exit
 
+service dhcp
+ip dhcp pool VOICE
+network 10.10.10.0 255.255.255.0
+default-router 10.10.10.1
+option 150 ip 10.10.10.1
+dns-server 10.10.10.1
+ip dhcp excluded-address 10.10.10.1
+telephony-service
+max-ephones
+max-ephones 20
+max-dn 20
+ip source-address 10.10.10.1 port 2000
+auto assign 1 to 20
+exit
+ephone-dn 1
+number 401
+ex
+ephone-dn 2
+number 402
+ex
+ephone-dn 3
+number 403
+ex
+ephone-dn 4
+number 404
+ex
+ephone-dn 5
+number 405
+ex
+ephone-dn 6
+number 406
+ex
+ephone-dn 7
+number 407
+ex
+ephone-dn 8
+ephone-dn 8
+number 408
+ex
+ephone-dn 9
+number 409
+ephone-dn 10
+number 410
+ex
+exit
+
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any
+line vty 0 15 
+access-class 10 in
+exit
 
 do wr
 ```
