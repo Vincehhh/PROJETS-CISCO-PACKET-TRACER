@@ -485,7 +485,24 @@ do reload
 access-list 110 permit ip 192.168.20.0 0.0.0.255 192.168.21.0 0.0.0.15
 
 crypto isakmp policy 10
-encryption aes 256 
+encryption aes 256
+authentication pre-share
+group 5
+exit
+crypto isakmp key vpnpa55 address 190.200.100.1
+crypto ipsec transform-net VPN-SET esp-aes esp-sha-hmac
+crypto map VPN-MAP 10 ipsec-isakmp
+description VPN connection to HQ-NETWORK
+set peer 190.200.100.9
+set transform-set VPN-SET
+match address 110
+exit
+
+interface S0/2/0
+crypto map VPN-MAP
+
+exit
+
 do wr
 ```
 
