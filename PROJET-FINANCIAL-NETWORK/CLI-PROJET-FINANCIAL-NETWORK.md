@@ -328,7 +328,8 @@ interface GigabitEthernet1/0/7
 access-list 10 permit 192.168.20.224 0.0.0.31
 access-list 10 deny any
 line vty 0 15 
-access-class 10 in 
+access-class 10 in
+exit
 
 do wr
 
@@ -455,7 +456,36 @@ network 190.200.100.0 0.0.0.3 area 0
 network 190.200.100.4 0.0.0.3 area 0
 network 192.168.21.16 0.0.0.3 area 0
 network 192.168.21.20 0.0.0.3 area 0
+exit
 
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any
+line vty 0 15 
+access-class 10 in
+
+
+int range gig0/0-1
+ip nat inside
+exit
+
+int se0/2/0
+ip nat outside
+int se0/2/1
+ip nat outside
+exit
+
+access-list 50 permit 192.168.20.0 0.0.0.255
+ip nat inside source list 50 interface se0/2/0 overload
+ip nat inside source list 50 interface se0/2/1 overload
+
+license boot module c2900 technology-package securityk9
+do reload
+
+
+access-list 110 permit ip 192.168.20.0 0.0.0.255 192.168.21.0 0.0.0.15
+
+crypto isakmp policy 10
+encryption aes 256 
 do wr
 ```
 
@@ -524,6 +554,14 @@ ip address 190.200.100.13 255.255.255.252
 no shutdown
 exit
 
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any
+line vty 0 15 
+access-class 10 in
+exit
+
+license boot module c2900 technology-package securityk9
+do reload
 
 do wr
 ```
@@ -566,6 +604,13 @@ network 190.200.100.0 0.0.0.3 area 0
 network 190.200.100.8 0.0.0.3 area 0
 exit
 
+
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any
+line vty 0 15 
+access-class 10 in
+exit
+
 do wr
 ```
 
@@ -605,6 +650,12 @@ router ospf 10
 router-id 6.6.6.6
 network 190.200.100.4 0.0.0.3 area 0
 network 190.200.100.12 0.0.0.3 area 0
+exit
+
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any
+line vty 0 15 
+access-class 10 in
 exit
 do wr
 ```
